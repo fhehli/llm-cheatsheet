@@ -1,0 +1,17 @@
+\section{RNNs}
+\subsection*{RNN}
+A RNN is given by an initial state $h_0\in\mathbb{R}^d$ and a dynamics map $h_{t}=f(h_{t-1},y_{t})$. An RNN-LM uses $\text{enc}(y_{<t+1})=h_t$.
+
+\subsection*{Elman RNN}
+An Elman RNN is an RNN with $f(h_{t-1},y_t)=\sigma(U h_{t-1}+Ve'( y_t)+b)$, where $U\in\mathbb{R}^{d\times d}$, $V\in \mathbb{R}^{d\times R}$ and $b\in\mathbb{R}^d$ and $e':\Sigma\rightarrow\mathbb{R}^R$ is an input embedding function.\\
+
+\subsection*{Jordan RNN}
+A Jordan RNN is an RNN with $$f(h_{t-1},y_t)=\sigma(U \sigma'(Eh_{t-1})+V e'(y_{t-1})+b).$$
+
+\subsection*{Tightness of RNN-LMs}
+If the LM uses the softmax and $s\|h_t\|\leq\log t$ (in particular if $f$ is bounded, e.g. if $f$ uses a bounded activation function), then the induced LM is \textbf{tight}.
+
+\subsection*{Expressiveness of RNNs}
+Heaviside Elman RNNs (over $\overline{\mathbb{R}}$) are equivalent to \textit{deterministic} PFSAs. The argument generalizes to any activation function with finite image, in particular any activation implemented on a computer. Minsky's construction encodes any dPFSA using $U\in \mathbb{R}^{|\Sigma||Q|\times |\Sigma||Q|}$ to encode which states are reachable from $h_{t-1}$ and $V\in\mathbb{R}^{|\Sigma||Q|\times |\Sigma|}$ to encode which states can be transitioned to using $y_t$. It is possible to reduce the hidden state dimensionality to
+$\Omega(|\Sigma|\sqrt{|Q|}).$\\
+Saturated Sigmoid Elmann RNNs are Turing complete (because they can encode two-stack PDAs). It is thus undecidable whether an RNN-LM is \textbf{tight}.

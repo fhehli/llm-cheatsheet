@@ -1,0 +1,28 @@
+\section{Foundations}
+\subsection*{Language Model}
+A language model is a distribution over $\Sigma^*$, where $\Sigma$ is a non-empty alphabet.
+
+\subsection*{Globally Normalized Model}
+For an \textit{energy fct} $\hat{p}: \Sigma^* \rightarrow \mathbb{R}$, a {GNM} is defined as $p(x) = {e^{-\hat{p}(x)}}/\sum_{y\in\Sigma^*}e^{-\hat{p}(y)}$.
+
+\subsection*{Locally Normalized Language Model}
+Given the cond. probabilities $p(y\mid y_{<t})$, the corresponding {LNLM} is \\
+$p_{LN}(y) = p_{SM}(\text{EOS}\mid y)\prod_{t=1}^{|y|} p_{SM}(y_t| y_{<t})$.
+% It is \textbf{tight} (and thus defines an actual LM) if $\sum_{y\in\Sigma^*}p(y) = 1$.
+
+\subsection*{Characterizing Tightness}
+Let \\
+$\displaystyle p_{\text{EOS}}(t)=\frac{\sum_{\omega\in\Sigma^{t-1}}^{}p_{LN}(\omega)
+    p_{LN}(\text{EOS}\mid\omega)}{\sum_{\omega\in\Sigma^{t-1}}^{} p_{LN}(\omega)}.$
+Then, $p_{LN}$ is \textbf{tight} iff $p_{\text{EOS}}(t)=1$ for some $t\geq 1$ or $\sum_{t=1}^{\infty} p_{\text{EOS}}(t) = \infty$. In particular, if $p_{LN}(\text{EOS}\mid y)\geq f(t)$ for all $y\in\Sigma^t$ and $\sum_{t=1}^{\infty}f(t)=\infty$, then $p_{LN}$ is tight.
+
+\subsection*{Softmax}
+$$\operatorname{softmax}(x)_i = \frac{\exp(\frac{x_i}{\tau})}{\sum_{j=1}^n \exp(\frac{x_j}{\tau})}$$
+As $\tau\rightarrow \infty$, becomes uniform and as $\tau\rightarrow 0$, becomes spiked. We have\\
+$\operatorname{softmax}(x)=\displaystyle\operatorname*{argmax}_{p\in\Delta^{n-1}} p^\top x - \tau \sum_{i=1}^{n} p_i \log p_i.$
+
+\subsection*{Representation-based Language Model}
+An embedding matrix $\mathbf{E}$ and an ecoding fct. $\text{enc}:\Sigma^*\rightarrow\mathbb{R}^d$ define a LNLM as $$p(y_t\mid y_{<t})=\operatorname{softmax}\big(\mathbf{E}\text{enc}(y_{<t})\big)_{y_t}.$$
+
+\subsection*{Tightness of Softmax RBLMs}
+If $sz(t)\leq \log t$ for all $t\geq N$ for some $N$, then the induced model is \textbf{tight}. Here, $s=\max_{y\in\Sigma} \|\text{e}(y)-\text{e}(\text{EOS})\|_2$ and $z(t)=\max_{\omega\in\Sigma^t}\|\text{enc}(\omega)\|_2$. In particular, if $\text{enc}$ is bounded, then the model is \textbf{tight}.

@@ -1,0 +1,18 @@
+\section{Transfer Learning}
+\subsection*{ELMo}
+Assume we have a forward and a backward LM using $L$ LSTM layers. The ELMo representation for a token $y_t$ is $$\gamma^{\text{task}}\sum_{l=0}^{L} s_l^{\text{task}}h_{tl}^{LM},$$ where $s_l^{\text{task}}\geq0$, $h_{tl}^{LM}=(\overrightarrow{h}_{tl}^{LM}, \overleftarrow{h}_{tl}^{LM})$, $\overrightarrow{h}_{tl}^{LM}$ and $\overleftarrow{h}_{tl}^{LM}$ are the hidden states of the LM layers.
+
+\subsection*{BERT}
+BERT is an encoder transformer pre-trained using masked language modelling and next sentence prediction.
+
+\subsection*{Adapters}
+For $h \in {\text{MHA}(C, x), \text{FFN}(x)}$, we set\\
+$h \leftarrow h + f (hW_1 + b_1 )W_2 + b_2$.\\
+$N_{\text{param}}=2N(2dm+d+m)$
+
+\subsection*{LoRA}
+Replace weight matrices $W\in\mathbb{R}^{d\times r}$ with $W\leftarrow W +\frac{\beta}{b}AB$ where $A\in\mathbb{R}^{d\times b}$ and $B\in\mathbb{R}^{b\times r}$ are random matrices and $\beta$ is a constant in $b$.\\
+$N_{\text{param}}=N H(3b(d+r) + 2bd)$
+
+\subsection*{Prefix Tuning}
+Prepending each layer with $l$ embedding vectors results in $N_{\text{param}}=Nld$.

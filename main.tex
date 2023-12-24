@@ -1,0 +1,59 @@
+\documentclass[12pt,landscape,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[nosf]{kpfonts}
+\usepackage[t1]{sourcesanspro}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage[top=0mm,bottom=2mm,left=1mm,right=1mm]{geometry}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{microtype}
+\usepackage{pdfpages}
+\usepackage[nodisplayskipstretch]{setspace}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,arrows,fit,calc,graphs,graphs.standard}
+
+\let\bar\overline
+\definecolor{myblue}{cmyk}{1,.72,0,.38}
+\tikzset{filled/.style={fill=circle area, draw=circle edge, thick},
+   outline/.style={draw=circle edge, thick}}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+\everymath\expandafter{\the\everymath \color{myblue}}
+\everydisplay\expandafter{\the\everydisplay \color{myblue}}
+\renewcommand{\baselinestretch}{.8}
+\pagestyle{empty}
+\global\mdfdefinestyle{header}{%
+   linecolor=gray,linewidth=1pt,%
+   leftmargin=0mm,rightmargin=0mm,skipbelow=0mm,skipabove=0mm,
+}
+\makeatletter % Author: https://tex.stackexchange.com/questions/218587/how-to-set-one-header-for-each-page-using-multicols
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+   {.2ex}%
+   {.2ex}%x
+   {\color{myblue}\sffamily\small\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}%
+   {.2ex}%
+   {.2ex}%x
+   {\sffamily\bfseries}}
+\makeatother
+\setlength{\parindent}{0pt}
+
+
+\begin{document}
+\small
+\begin{multicols*}{4}
+    \input{sections/foundations.tex}
+    \input{sections/classical-lms.tex}
+    \input{sections/rnns.tex}
+    \input{sections/transformers.tex}
+    \input{sections/sampling.tex}
+    \input{sections/transfer-learning.tex}
+    \input{sections/parameter-efficient-ft.tex}
+    \input{sections/knowledge.tex}
+    \input{sections/additional.tex}
+\end{multicols*}
+\end{document}

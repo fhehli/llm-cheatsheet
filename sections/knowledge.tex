@@ -1,0 +1,4 @@
+\section{Knowledge Enhancement}
+\subsection*{kNN-LM}
+Store all embedded prefixes and their following words in a database. At inference time, retrieve the $k$ nearest neighbors of a prefix and normalize the exponentiated distances to a probability distribution $p_\xi$ over words. Then sample from a convex combination of $p_\xi$ and the LM.\\
+Dynamic Gating: Set the weighting of distributions depending on the prefix.

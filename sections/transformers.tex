@@ -1,0 +1,41 @@
+\section{Transformers}
+\subsection*{Soft Attention}
+Given queries $Q\in\mathbb{R}^{n\times d}$, keys $K\in\mathbb{R}^{t\times d}$ and values $V\in\mathbb{R}^{t\times d}$, soft attention is $$\text{softmax}\left(\frac{Q K^\top}{\sqrt{d}}\right)V.$$ Time/Space compl.: $O(t^2d)$, $O(t^2+ld)$\\
+Kernelized attention is $O(rtd)$ and $O(rl + rd + ld)$ with feature map dimension $r$.
+
+\subsection*{Multi-head Attention}
+Given a context $C\in\mathbb{R}^{t\times d}$ and a query $x\in\mathbb{R}^d$, we set
+\begin{equation*}
+    \begin{aligned}
+        \text{MHA}(x) & =\text{Concat}(\text{head}_1,...,\text{head}_N)W_o \\
+        \text{head}_i & =\text{Att}(xW_q^{(i)},CW_k^{(i)},CW_v^{(i)}),
+    \end{aligned}
+\end{equation*}
+where $W_q^{(i)},W_k^{(i)},W_v^{(i)}\in\mathbb{R}^{d\times d_h},W_o\in\mathbb{R}^{d\times d}$ and usually $d_h=d/N$.
+
+\subsection*{Transformer Layer}
+A transformer layer (without layer-norm) is a function $T: \mathbb{R}^{T\times d}\rightarrow\mathbb{R}^{T\times d}$ that maps $\mathbf{X}=(x_1,...,x_T)$ to $(z_1,...,z_T)$, where
+\begin{equation*}
+    \begin{aligned}
+        a_t & = \text{Att}\big(q(x_t), K(\mathbf{X}_t), V(\mathbf{X}_t)\big) + x_t \\
+        z_t & = \text{FFN}(a_t) + a_t.
+    \end{aligned}
+\end{equation*}
+
+\subsection*{Transformer}
+A transformer is a rep.-based LM with $\text{enc}(y_{<t+1})=h_t$, where
+\begin{equation*}
+    \begin{aligned}
+        \mathbf{X}_1     & = (e'(y_0),...,e'(y_{t})) \\
+        \mathbf{X}_{l+1} & = T_{l}(\mathbf{X}_{l})   \\
+        h_t              & = F(x^L_t)
+    \end{aligned}
+\end{equation*}
+for some $F:\mathbb{R}^{d}\rightarrow\mathbb{R}^d$, $e':\Sigma\rightarrow\mathbb{R}^d$ and transformer layers $T_1,...,T_L$.
+
+\subsection*{Tightness of Transformers}
+Any transformer using soft attention is \textbf{tight} (because its layers are continuous and the set of possible inputs to the first layer is compact, making $\text{enc}$ bounded).
+
+\subsection*{Expressiveness of Transformers}
+Let $p_{LN}$ be an n-gram language model. Then, there exists a transformer $\mathcal{T}$ with $L(p_{LN})=L(\mathcal{T})$.
+

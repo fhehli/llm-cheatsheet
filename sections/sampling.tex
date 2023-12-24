@@ -1,0 +1,19 @@
+\section{Sampling}
+\subsection*{Ancestral Sampling}
+% \begin{enumerate}
+1. Locally normalize.\\
+2. Sample $y_t\sim p(\cdot\mid y_{<t})$, stop when $y_t=\text{EOS}$.
+% \end{enumerate}
+\\
+May not halt $\rightarrow$ set max string length.
+
+\subsection*{Sampling Adaptors}
+To calibrate $p$ we can postprocess probabilities by a function $\alpha: \Delta^{|\Sigma|-1}\to \Delta^{|\Sigma|-1}$.
+
+\subsection*{Top-K Sampling}
+Set $p(y_t\mid y_{<t})=0$ for all but the $K$ most probable tokens, and renormalize.
+
+\subsection*{Nuclues Sampling}
+Only take top $p\%$ of probability mass.
+
+% \subsection*{Locally Typical Sampling}

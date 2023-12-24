@@ -1,0 +1,53 @@
+\section{Finite State LMs}
+\subsection*{Finite State Automaton}
+A {FSA} is a tuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, where $Q$ is a finite set of states, $\Sigma$ is an alphabet, $\delta\subseteq Q\times(\Sigma\cup\{\epsilon\})\times Q$ are the transitions, and $I,F\subseteq Q$ are the sets of initial/final states.
+
+\subsection*{Weighted FSA}
+A {WFSA} is a tuple $\mathcal{A}=(Q,\Sigma,\delta,\lambda,\rho)$, where $\delta\subseteq Q\times(\Sigma\cup\{\epsilon\})\times\mathbb{R}\times Q$ are the weighted transitions and $\lambda,\rho:Q\rightarrow\mathbb{R}$ are the initial/final weights.
+
+\subsection*{Probabilistic FSA}
+A WFSA is probabilistic if $\lambda,\rho$ and the weights are non-negative, $\sum_{q\in Q}\lambda(q)=1$ and for all $q\in Q$ we have $$\rho(q)+\sum_{q\stackrel{a/w}{\longrightarrow}q'}w=1.$$
+
+\subsection*{Path Weights}
+The weight of a path $\pi=q_1\stackrel{a_1/w_1}{\longrightarrow}q_2\cdot\cdot q_N$\\ in a {WFSA} $\mathcal{A}$ is \\
+$$\displaystyle w(\pi)=\lambda(q_1)\prod_{i=1}^{N}w_i\rho(q_N).$$
+
+\subsection*{WFSA Allsum}
+The allsum of a {WFSA} $\mathcal{A}$ is \\
+$$\displaystyle {Z}(\mathcal{A})=\sum_{y\in\Sigma^*}\mathcal{A}(y)=\sum_{y\in\Sigma^*}\sum_{\pi\in\Pi(A,y)}w(\pi).$$
+We have $$Z(A)=\vec{\lambda}\sum_{d=0}^\infty T^d\vec{\rho}=\vec{\lambda}(I-T)^{-1}\vec{\rho}$$ where $T$ is the transition matrix of $A$.
+
+\subsection*{Tightness of PFSA}
+A state $q\in Q$ is accessible if there exists a non-zero weighted path from an initial state to $q$. It is co-accessible if there exists a non-zero weighted path from $q$ to a final state.\\
+A PWFSA is \textbf{tight} if and only if all accessible states are co-accessible.
+
+\section{Pushdown LMs}
+\subsection*{Context Free Grammar}
+A CFG is a tuple $\mathcal{G}=(\Sigma,\mathcal{N},S,\mathcal{P})$, where $\Sigma$ is an alphabet of terminals, $\mathcal{N}$ is a set of non-terminals with $\mathcal{N}\cap\Sigma= \emptyset$, $S\in\mathcal{N}$ is the start symbol and $\mathcal{P}$ is a set of production rules of the form $X\rightarrow\alpha$ where $X\in\mathcal{N}$ and $\alpha\in(\Sigma\cup\mathcal{N})^*$.
+
+\subsection*{Weighted CFG}
+A WCFG is a CFG with an associated weight function $\mathcal{W}:\mathcal{P}\rightarrow\mathbb{R}$.
+
+\subsection*{Probabilistic CFG}
+A WCFG is probabilistic if $\mathcal{W}$ is non-negative and for all $X\in\mathcal{N}$ we have $\sum_{X\rightarrow\alpha\in\mathcal{P}}\mathcal{W}(X\rightarrow\alpha)=1$.
+
+\subsection*{WCFG Allsum}
+The allsum of a WCFG $\mathcal{G}$ is
+\begin{equation*}
+    \begin{aligned}
+        Z(\mathcal{G}) & =\sum_{d\in\mathcal{D}_\mathcal{G}}w(d) \\
+                       & =\sum_{d\in\mathcal{D}_\mathcal{G}}
+        \prod_{(X\rightarrow\alpha)\in d}\mathcal{W}(X\rightarrow\alpha),
+    \end{aligned}
+\end{equation*}
+where $\mathcal{D}_\mathcal{G}$ is the set of all possible derivations in $\mathcal{G}$.
+
+\subsection*{Tightness of PCFG}
+For a PCFG $\mathcal{G}$ with $|\mathcal{N}|=N$ we define for each $X_n\in\mathcal{N}$ its production generating fct.\\
+$$\displaystyle g_n\left((s_i)_{i=1}^N\right)=\sum_{X_n\rightarrow \alpha}\mathcal{W}(X_n\rightarrow\alpha)s_1^{r_1(\alpha)}\cdots s_N^{r_N(\alpha)}$$ where $r_i(\alpha)$ is the number of times $X_i$ appears in $\alpha$. Then we set $E\in\mathbb{R}^{N\times N}$ to have entries $E_{nm}=\frac{\partial}{\partial s_m}g_n(s_1,...,s_N)\big|_{s_1,...,s_N=1}$. Then $\mathcal{G}$ is \textbf{tight} if $\lambda<1$ and non-tight if $\lambda>1$, where $\lambda=\max\big\{|\lambda'|\mid \lambda'\in\sigma(E)\big\}$.
+
+\subsection*{Pushdown Automaton}
+A language is context-free if and only if it is recognized by some PDA.
+
+\subsection*{Multi-Stack PDA}
+Any (probabilistic) 2-stack PDA is Turing complete. Hence, the tightness of a probabilistic 2-stack PDA is undecidable.

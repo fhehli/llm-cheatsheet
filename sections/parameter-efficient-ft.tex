@@ -1,0 +1,9 @@
+\section{Parameter Efficient Fine-Tuning}
+\subsection*{BitFit}
+Only optimize (a subset of) bias terms.
+
+\subsection*{Diff Pruning}
+Learn (sparse) $\delta$ in $\theta_{\text{FT}}=\theta_{\text{LM}}+\delta$.
+
+\subsection*{Adapters}
+Insert bottleneck MLPs after each sublayer (MHA and FFN).
